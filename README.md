@@ -1,4 +1,4 @@
-# llm-tokenizer
+# bpe-tokenizer
 Este repositorio contiene un tokenizer realizado en python. El tokenizer en cuestion sera desarrollado por el metodo BPE (Byte Pair Encoding) que es una forma simple de compresión de datos en la que el par más común de bytes consecutivos se reemplaza con un byte que no ocurre dentro de esos datos. Se requiere una tabla de reemplazos para reconstruir los datos originales.
 
 ### Un ejemplo de como funciona BPE
