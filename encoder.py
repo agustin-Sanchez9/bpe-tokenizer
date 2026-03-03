@@ -101,8 +101,8 @@ if __name__ == "__main__":
         rules = load_merges("merges.txt")
         print(f"Se cargaron {len(rules)} reglas.")
 
-        input_text = "Quijote"
-        input_token = 9997
+        input_text = "el Quijote y Sancho"
+        input_token = 4967
 
         tokens = encode(input_text, rules)
         visual_tokents = debug_tokens(tokens, rules)
