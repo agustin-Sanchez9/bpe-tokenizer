@@ -69,24 +69,55 @@ def debug_tokens(tokens, merges):
 
 
 
+# Devuelve la representacion en caracteres de un ID de token especifico
+def get_token_content(token_id, merges):
+    # vocabulario base
+    vocab = {i: bytes([i]) for i in range(256)}
+    
+    # reconstruir los tokens fusionados hasta llegar al token objetivo
+    for i, (p1, p2) in enumerate(merges):
+        current_id = 256 + i
+        vocab[current_id] = vocab[p1] + vocab[p2]
+        if current_id == token_id:
+            break
+            
+    if token_id not in vocab:
+        return f"Error: El token ID {token_id} no existe en las reglas actuales."
+
+    byte_value = vocab[token_id]
+    
+    # Intentar decodificar a texto, si no es posible (bytes incompletos), mostrar los bytes raw
+    try:
+        char_value = byte_value.decode('utf-8')
+        return f"Token {token_id} -> '{char_value}'"
+    except UnicodeDecodeError:
+        return f"Token {token_id} -> {list(byte_value)} (Bytes parciales de UTF-8)"
+
+
+
+
 if __name__ == "__main__":
     try:
         rules = load_merges("merges.txt")
         print(f"Se cargaron {len(rules)} reglas.")
 
         input_text = "Quijote"
+        input_token = 9997
 
         tokens = encode(input_text, rules)
         visual_tokents = debug_tokens(tokens, rules)
+        debug_token = get_token_content(input_token, rules)
 
         print(f"\nTexto original: {input_text}")
         print(f"Tokens generados: {tokens}")
         print(f"Desglose de tokens: [{' | '.join(visual_tokents)}]")
         print(f"Longitud original (bytes): {len(input_text.encode('utf-8'))}")
         print(f"Longitud comprimida (tokens): {len(tokens)}")
-
         decoded_text = decode(tokens, rules)
         print(f"\nTexto recuperado: {decoded_text}")
+        print("\n")
+        print(f"El token {input_token} representa: {debug_token}")
+        print("\n")
 
     except Exception as e:
         print(f"Error: {e}")
