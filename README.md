@@ -27,10 +27,10 @@ Copiando el metodo visto en el paper de GPT-2 para evitar tener tokens de mas de
 '''
 Para evitar tener multiples tokens por cada palabra se usan expresiones regulares para forzar a que se eviten cierto tipo de merges o reglas.
 
-El que puede verse aplicado a GPT-2 es el siguiente patron (quitando todos casos de apostrofe y letra que no aplican para el español)
+El que puede verse aplicado a GPT-2 es el siguiente patron (quitando todos casos de apostrofe y letra que no aplican para el español):
 
 r""" ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
 
-Dado que mi bpe final fue realizado en C++ el patron cambia a
+Dado que mi bpe final fue realizado en C++ el patron cambia al sigueinte equivalente:
 
 R"( ?[a-zA-ZáéíóúÁÉÍÓÚñÑ]+| ?[0-9]+| ?[^\s\w]+|\s+(?!\S)|\s+)"
